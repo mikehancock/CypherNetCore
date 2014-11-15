@@ -9,7 +9,7 @@
     {
         string[] Columns { get; }
 
-        bool Next();
+        bool Read();
 
         T Get<T>(int index);
     }
@@ -30,7 +30,7 @@
             get { return this.data.results.First().columns.Select(c => c.ToString()).ToArray(); }
         }
 
-        public bool Next()
+        public bool Read()
         {
             return this.data.results.First().data.Length > ++rowPointer;
         }

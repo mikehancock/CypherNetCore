@@ -83,8 +83,6 @@
         public void SetupBeforeEachTest()
         {
             this.deserialiser = new Deserialiser();
-            this.neoApi = A.Fake<ISendRestCommandsToNeo>();
-            A.CallTo(() => this.neoApi.SendCommand(A<string>._)).Returns(response);
         }
 
         [Test]

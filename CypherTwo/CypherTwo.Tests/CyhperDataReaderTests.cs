@@ -102,15 +102,15 @@
         [Test]
         public void NextReturnsTrueWhenNotAtEnd()
         {
-            Assert.That(this.dataReader.Next(), Is.EqualTo(true));
+            Assert.That(this.dataReader.Read(), Is.EqualTo(true));
         }
 
         [Test]
         public void NextReturnsFalseWhenAtEnd()
         {
-            this.dataReader.Next();
-            this.dataReader.Next();
-            Assert.That(this.dataReader.Next(), Is.EqualTo(false));
+            this.dataReader.Read();
+            this.dataReader.Read();
+            Assert.That(this.dataReader.Read(), Is.EqualTo(false));
         }
 
         [Test]
@@ -128,16 +128,16 @@
         [Test]
         public void GetThrowsExceptionWhenRowCountExceeded()
         {
-            this.dataReader.Next();
-            this.dataReader.Next();
-            this.dataReader.Next();
+            this.dataReader.Read();
+            this.dataReader.Read();
+            this.dataReader.Read();
             Assert.Throws<InvalidOperationException>(() => this.dataReader.Get<int>(1));
         }
 
         [Test]
         public void GetReturnsIntFromFirstRow()
         {
-            this.dataReader.Next();
+            this.dataReader.Read();
             var actual = this.dataReader.Get<int>(1);
             Assert.That(actual, Is.EqualTo(3745));
         }
@@ -145,7 +145,7 @@
         [Test]
         public void GetReturnsObjectFromFirstRow()
         {
-            this.dataReader.Next();
+            this.dataReader.Read();
             var actual = this.dataReader.Get<TestFoo>(0);
             Assert.That(actual.Age, Is.EqualTo(33));
             Assert.That(actual.Name, Is.EqualTo("mark"));

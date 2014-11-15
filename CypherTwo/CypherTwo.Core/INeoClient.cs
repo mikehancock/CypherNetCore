@@ -1,6 +1,8 @@
 ﻿namespace CypherTwo.Core
 {
     using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     using NeoPlayground.Tests;
 
@@ -10,7 +12,7 @@
     {
         void Connect();
 
-        ICypherDataReader Query(string cypher);
+        Task<ICypherDataReader> QueryAsync(string cypher);
 
         void Execute(string cypher);
     }
@@ -26,14 +28,19 @@
 
         public void Connect()
         {
-            throw new System.NotImplementedException();
+            this.neoApi.LoadServiceRootAsync();
         }
 
-        public ICypherDataReader Query(string cypher)
+        public async Task<ICypherDataReader> QueryAsync(string cypher)
         {
-            var response = this.neoApi.SendCommand(cypher);
+            var response = await this.neoApi.SendCommandAsync(cypher);
             var neoResponse = JsonConvert.DeserializeObject<NeoResponse>(response);
-            throw new NotImplementedException();
+            if (neoResponse.errors != null && neoResponse.errors.Any())
+            {
+                throw new Exception(string.Join(Environment.NewLine, neoResponse.errors.Select(error => error.ToObject<string>())));
+            }
+
+            return new CypherDataReader(neoResponse);
         }
 
         public void Execute(string cypher)
