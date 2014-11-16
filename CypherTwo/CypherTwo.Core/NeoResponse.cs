@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace NeoPlayground.Tests
+﻿namespace CypherTwo.Core
 {
+    using Newtonsoft.Json.Linq;
+
     internal class Datum
     {
         public JToken[] row { get; set; }

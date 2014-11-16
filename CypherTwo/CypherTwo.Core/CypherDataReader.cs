@@ -3,8 +3,6 @@
     using System;
     using System.Linq;
 
-    using NeoPlayground.Tests;
-
     public interface ICypherDataReader
     {
         string[] Columns { get; }
@@ -32,7 +30,7 @@
 
         public bool Read()
         {
-            return this.data.results.First().data.Length > ++rowPointer;
+            return this.data.results.First().data.Length > ++this.rowPointer;
         }
 
         public T Get<T>(int index)

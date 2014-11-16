@@ -10,7 +10,7 @@
     public class NeoClientTests
     {
         #region Constants
-        private const string response = @"{
+        private const string Response = @"{
    ""commit"":""http://localhost:7474/db/data/transaction/6/commit"",
    ""results"":[
       {
@@ -81,7 +81,7 @@
         public void SetupBeforeEachTest()
         {
             this.neoApi = A.Fake<ISendRestCommandsToNeo>();
-            A.CallTo(() => this.neoApi.SendCommandAsync(A<string>._)).Returns(response);
+            A.CallTo(() => this.neoApi.SendCommandAsync(A<string>._)).Returns(Response);
             this.neoClient = new NeoClient(this.neoApi);
         }
 

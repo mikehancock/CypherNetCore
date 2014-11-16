@@ -4,13 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using NeoPlayground.Tests;
-
     using Newtonsoft.Json;
 
     public interface INeoClient
     {
-        void Connect();
+        void Initialise();
 
         Task<ICypherDataReader> QueryAsync(string cypher);
 
@@ -26,7 +24,7 @@
             this.neoApi = neoApi;
         }
 
-        public void Connect()
+        public void Initialise()
         {
             this.neoApi.LoadServiceRootAsync();
         }
@@ -48,5 +46,4 @@
             throw new System.NotImplementedException();
         }
     }
-
 }

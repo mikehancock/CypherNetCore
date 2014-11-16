@@ -19,6 +19,5 @@
             this.jsonClientWrapper = A.Fake<IJsonHttpClientWrapper>();
             this.neoRestApiClient = new NeoRestApiClient(this.jsonClientWrapper, "http://localhost:7474/");
         }
-
     }
 }

@@ -12,7 +12,7 @@
     public class DeserialisationTests
     {
         #region Constants
-        private const string response = @"{
+        private const string Response = @"{
    ""commit"":""http://localhost:7474/db/data/transaction/6/commit"",
    ""results"":[
       {
@@ -77,8 +77,6 @@
 
         private Deserialiser deserialiser;
 
-        private ISendRestCommandsToNeo neoApi;
-
         [SetUp]
         public void SetupBeforeEachTest()
         {
@@ -88,7 +86,7 @@
         [Test]
         public void CanDeserialiseRows()
         {
-            var actual = deserialiser.Deserialise(response);
+            var actual = this.deserialiser.Deserialise(Response);
 
             Assert.That(actual.results.First().columns.Length, Is.EqualTo(9));
             Assert.That(actual.results.First().columns[6], Is.EqualTo("Movie"));
@@ -97,7 +95,7 @@
         [Test]
         public void CanExtractNodeObject()
         {
-            var actual = this.deserialiser.Deserialise(response);
+            var actual = this.deserialiser.Deserialise(Response);
 
             dynamic node = actual.results.First().data[0].row[0];
             int age = node.age;
@@ -109,7 +107,7 @@
         [Test]
         public void CanCastToObject()
         {
-            var actual = this.deserialiser.Deserialise(response);
+            var actual = this.deserialiser.Deserialise(Response);
 
             var foo = actual.results.First().data[0].row[0].ToObject<TestFoo>();
 
@@ -120,7 +118,7 @@
         [Test]
         public void CanGetIdFromRow()
         {
-            var actual = this.deserialiser.Deserialise(response);
+            var actual = this.deserialiser.Deserialise(Response);
 
             var foo = actual.results.First().data[0].row[1].ToObject<int>();
             Assert.That(foo, Is.EqualTo(3745));
@@ -133,5 +131,3 @@
         public string Name { get; set; }
     }
 }
-
-

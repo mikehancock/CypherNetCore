@@ -1,7 +1,5 @@
 ﻿namespace CypherTwo.Core
 {
-    using NeoPlayground.Tests;
-
     using Newtonsoft.Json;
 
     internal class Deserialiser

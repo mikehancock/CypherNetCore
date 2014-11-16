@@ -26,8 +26,7 @@
         [Test]
         public void GetPersonNode()
         {
-            this.neoClient.Connect();
-
+            this.neoClient.Initialise();
         }
     }
 }

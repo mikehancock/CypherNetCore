@@ -5,8 +5,6 @@
 
     using CypherTwo.Core;
 
-    using NeoPlayground.Tests;
-
     using Newtonsoft.Json;
 
     using NUnit.Framework;
@@ -15,7 +13,7 @@
     public class CyhperDataReaderTests
     {
         #region Constants
-        private const string response = @"{
+        private const string Response = @"{
    ""commit"":""http://localhost:7474/db/data/transaction/6/commit"",
    ""results"":[
       {
@@ -83,7 +81,7 @@
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            var neoResponse = JsonConvert.DeserializeObject<NeoResponse>(response);
+            var neoResponse = JsonConvert.DeserializeObject<NeoResponse>(Response);
             this.dataReader = new CypherDataReader(neoResponse);
         }
 

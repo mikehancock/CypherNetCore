@@ -16,12 +16,9 @@
 
     public class NeoRestApiClient : ISendRestCommandsToNeo
     {
-        private readonly IJsonHttpClientWrapper httpClient;
-
-        private readonly string baseUrl;
-
         private const string CommandFormat = @"{{""statements"": [{{""statement"": ""{0}""}}]}};";
-
+        private readonly IJsonHttpClientWrapper httpClient;
+        private readonly string baseUrl;
         private IDictionary<string, object> serviceRoot;
 
         public NeoRestApiClient(IJsonHttpClientWrapper httpClient, string baseUrl)
@@ -35,7 +32,7 @@
             if (this.serviceRoot == null || !this.serviceRoot.Any())
                 throw new InvalidOperationException("you must call connect before anything else cunts!");
 
-            var result = await this.httpClient.PostAsync(this.serviceRoot["transaction"].ToString() + "/commit" , string.Format(CommandFormat, command));
+            var result = await this.httpClient.PostAsync(this.serviceRoot["transaction"].ToString() + "/commit", string.Format(CommandFormat, command));
 
             return result;
         }
