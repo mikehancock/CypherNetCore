@@ -64,7 +64,7 @@
     <Compile Include="CyhperDataReaderTests.cs" />
     <Compile Include="NeoClientTests.cs" />
     <Compile Include="NeoRestApiClientTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="DeserialisationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

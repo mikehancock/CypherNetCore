@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="NeoResponse.cs" />
     <Compile Include="CypherDataReader.cs" />
     <Compile Include="Deserialiser.cs" />
     <Compile Include="NeoHttpClientWrapper.cs" />

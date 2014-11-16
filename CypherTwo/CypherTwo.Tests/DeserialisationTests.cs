@@ -9,7 +9,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class UnitTest1
+    public class DeserialisationTests
     {
         #region Constants
         private const string response = @"{

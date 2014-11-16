@@ -2,8 +2,6 @@
 
 namespace NeoPlayground.Tests
 {
-    
-
     internal class Datum
     {
         public JToken[] row { get; set; }
