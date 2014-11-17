@@ -26,7 +26,15 @@
 
         public void Initialise()
         {
-            this.neoApi.LoadServiceRootAsync();
+            try
+            {
+                var task = this.neoApi.LoadServiceRootAsync();
+                task.Wait();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
         public async Task<ICypherDataReader> QueryAsync(string cypher)

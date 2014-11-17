@@ -32,5 +32,14 @@
             this.neoClient = new NeoClient(this.neoApi);
             Assert.Throws<InvalidOperationException>(() => this.neoClient.Initialise());
         }
+
+        [Test]
+        public async void CreateAndSelectNode()
+        {
+            var reader = await this.neoClient.QueryAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer' }) RETURN Id(n)");
+            
+            Assert.That(reader.Read(), Is.EqualTo(true));
+            Assert.That(reader.Get<int>(0), Is.EqualTo(1));
+        }
     }
 }
