@@ -8,11 +8,11 @@
 
     public interface INeoClient
     {
-        void Initialise();
+        Task InitialiseAsync();
 
         Task<ICypherDataReader> QueryAsync(string cypher);
 
-        void Execute(string cypher);
+        Task ExecuteAsync(string cypher);
     }
 
     public class NeoClient : INeoClient
@@ -24,12 +24,11 @@
             this.neoApi = neoApi;
         }
 
-        public void Initialise()
+        public async Task InitialiseAsync()
         {
             try
             {
-                var task = this.neoApi.LoadServiceRootAsync();
-                task.Wait();
+                await this.neoApi.LoadServiceRootAsync();
             }
             catch (Exception ex)
             {
@@ -49,7 +48,7 @@
             return new CypherDataReader(neoResponse);
         }
 
-        public void Execute(string cypher)
+        public Task ExecuteAsync(string cypher)
         {
             throw new System.NotImplementedException();
         }

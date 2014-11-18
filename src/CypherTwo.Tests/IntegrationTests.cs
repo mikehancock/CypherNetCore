@@ -22,7 +22,7 @@
             this.httpClientWrapper = new JsonHttpClientWrapper(new HttpClient());
             this.neoApi = new NeoRestApiClient(this.httpClientWrapper, "http://localhost:7474/db/data");
             this.neoClient = new NeoClient(this.neoApi);
-            this.neoClient.Initialise();
+            this.neoClient.InitialiseAsync().Wait();
         }
 
         [Test]
@@ -30,7 +30,17 @@
         {
             this.neoApi = new NeoRestApiClient(this.httpClientWrapper, "http://localhost:1111/");
             this.neoClient = new NeoClient(this.neoApi);
-            Assert.Throws<InvalidOperationException>(() => this.neoClient.Initialise());
+            Assert.Throws<InvalidOperationException>(() =>
+                {
+                    try
+                    {
+                        this.neoClient.InitialiseAsync().Wait();
+                    }
+                    catch (AggregateException ex)
+                    {
+                        throw ex.InnerException;
+                    }
+                });
         }
 
         [Test]
