@@ -1,9 +1,8 @@
-﻿using System.Text;
-
-namespace CypherTwo.Core
+﻿namespace CypherTwo.Core
 {
     using System;
     using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
 
     public interface IJsonHttpClientWrapper

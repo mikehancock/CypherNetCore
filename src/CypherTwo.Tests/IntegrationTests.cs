@@ -36,14 +36,18 @@
         [Test]
         public async void CreateAndSelectNode()
         {
-            var reader = await this.neoClient.QueryAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer' }) RETURN n");
+            var reader = await this.neoClient.QueryAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer' }) RETURN {Name: n.name, Title: n.title, Id: Id(n)} as TestFoo");
             
             Assert.That(reader.Read(), Is.EqualTo(true));
-            Assert.That(reader.Get<TestFoo>(0).Name, Is.EqualTo("Andres"));
+            var foo = reader.Get<TestFoo>(0);
+            Assert.That(foo.Name, Is.EqualTo("Andres"));
+            Assert.That(foo.Title, Is.EqualTo("Developer"));
+            Assert.That(foo.Id, Is.GreaterThan(-1));
         }
 
         private class TestFoo
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Title { get; set; }
         }
