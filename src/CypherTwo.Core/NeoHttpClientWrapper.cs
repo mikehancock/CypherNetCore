@@ -1,4 +1,6 @@
-﻿namespace CypherTwo.Core
+﻿using System.Text;
+
+namespace CypherTwo.Core
 {
     using System;
     using System.Net.Http;
@@ -22,7 +24,7 @@
 
         public async Task<string> PostAsync(string url, string request)
         {
-            var httpContent = new StringContent(request);
+            var httpContent = new StringContent(request, Encoding.Unicode, "application/json");
             var response = await this.httpClient.PostAsync(url, httpContent);
 
             if (!response.IsSuccessStatusCode)
