@@ -2,8 +2,8 @@
 {
     using System;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
 
     public interface INeoClient
@@ -19,7 +19,11 @@
     {
         private readonly ISendRestCommandsToNeo neoApi;
 
-        public NeoClient(ISendRestCommandsToNeo neoApi)
+        public NeoClient(string baseUrl) : this(new ApiClientFactory(baseUrl, new JsonHttpClientWrapper(new HttpClient())))
+        {
+        }
+
+        internal NeoClient(ISendRestCommandsToNeo neoApi)
         {
             this.neoApi = neoApi;
         }
@@ -38,8 +42,7 @@
 
         public async Task<ICypherDataReader> QueryAsync(string cypher)
         {
-            var response = await this.neoApi.SendCommandAsync(cypher);
-            var neoResponse = JsonConvert.DeserializeObject<NeoResponse>(response);
+            var neoResponse = await this.neoApi.SendCommandAsync(cypher);
             if (neoResponse.errors != null && neoResponse.errors.Any())
             {
                 throw new Exception(string.Join(Environment.NewLine, neoResponse.errors.Select(error => error.ToObject<string>())));

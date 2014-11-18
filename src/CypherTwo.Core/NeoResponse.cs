@@ -19,6 +19,8 @@
         public Result[] results { get; set; }
 
         public JObject[] errors { get; set; }
+
+        public string Commit { get; set; }
     }
 
     internal class Person

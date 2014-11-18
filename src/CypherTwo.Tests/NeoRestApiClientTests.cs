@@ -17,7 +17,7 @@
         public void SetupBeforeEachTest()
         {
             this.jsonClientWrapper = A.Fake<IJsonHttpClientWrapper>();
-            this.neoRestApiClient = new NeoRestApiClient(this.jsonClientWrapper, "http://localhost:7474/");
+            this.neoRestApiClient = new NonTransactionalNeoRestApiClient(this.jsonClientWrapper, "http://localhost:7474/");
         }
     }
 }

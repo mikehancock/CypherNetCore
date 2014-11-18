@@ -1,9 +1,8 @@
 ﻿namespace CypherTwo.Tests
 {
     using CypherTwo.Core;
-
     using FakeItEasy;
-
+    using Newtonsoft.Json;
     using NUnit.Framework;
 
     [TestFixture]
@@ -81,7 +80,7 @@
         public void SetupBeforeEachTest()
         {
             this.neoApi = A.Fake<ISendRestCommandsToNeo>();
-            A.CallTo(() => this.neoApi.SendCommandAsync(A<string>._)).Returns(Response);
+            A.CallTo(() => this.neoApi.SendCommandAsync(A<string>._)).Returns(JsonConvert.DeserializeObject<NeoResponse>(Response));
             this.neoClient = new NeoClient(this.neoApi);
         }
 

@@ -23,7 +23,7 @@
 
         public async Task<string> PostAsync(string url, string request)
         {
-            var httpContent = new StringContent(request, Encoding.Unicode, "application/json");
+            var httpContent = request == null ? null : new StringContent(request, Encoding.Unicode, "application/json");
             var response = await this.httpClient.PostAsync(url, httpContent);
 
             if (!response.IsSuccessStatusCode)
