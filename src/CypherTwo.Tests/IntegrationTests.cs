@@ -20,7 +20,7 @@
         public void SetupBeforeEachTest()
         {
             this.httpClientWrapper = new JsonHttpClientWrapper(new HttpClient());
-            this.neoApi = new NeoRestApiClient(this.httpClientWrapper, "http://localhost:7474/");
+            this.neoApi = new NeoRestApiClient(this.httpClientWrapper, "http://localhost:7474/db/data");
             this.neoClient = new NeoClient(this.neoApi);
             this.neoClient.Initialise();
         }
