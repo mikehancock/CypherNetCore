@@ -19,7 +19,7 @@
     {
         private readonly ISendRestCommandsToNeo neoApi;
 
-        public NeoClient(string baseUrl) : this(new ApiClientFactory(baseUrl, new JsonHttpClientWrapper(new HttpClient())))
+        public NeoClient(string baseUrl) : this(new ApiClientFactory(baseUrl, new JsonHttpClientWrapper()))
         {
         }
 

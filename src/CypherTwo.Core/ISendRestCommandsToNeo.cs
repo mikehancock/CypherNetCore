@@ -35,6 +35,12 @@
             this.baseUrl = baseUrl;
         }
 
+        public NonTransactionalNeoRestApiClient(IJsonHttpClientWrapper httpClient, IDictionary<string, object> serviceRoot)
+        {
+            this.httpClient = httpClient;
+            this.serviceRoot = serviceRoot;
+        }
+
         public async Task<NeoResponse> SendCommandAsync(string command)
         {
             if (this.serviceRoot == null || !this.serviceRoot.Any())
@@ -96,7 +102,7 @@
 
         public async Task RollbackAsync()
         {
-            await this.httpClient.PostAsync(this.GetThisTransactionUrl() + "/rollback", string.Empty);
+            await this.httpClient.DeleteAsync(this.GetThisTransactionUrl());
         }
 
         public async Task<bool> KeepAliveAsync()
@@ -175,7 +181,7 @@
                 }
             }
 
-            return new NonTransactionalNeoRestApiClient(this.httpClient, this.baseUrl);
+            return new NonTransactionalNeoRestApiClient(this.httpClient, this.serviceRoot);
         }
 
         private class ResourceManager : IEnlistmentNotification
@@ -191,9 +197,7 @@
 
             public void Commit(Enlistment enlistment)
             {
-                var commitTask = this.unitOfWork.CommitAsync();
-                commitTask.ConfigureAwait(Debugger.IsAttached);
-                commitTask.Wait();
+                this.unitOfWork.CommitAsync().Wait();
                 this.OnComplete();
                 enlistment.Done();
             }
@@ -205,9 +209,9 @@
 
             public void Prepare(PreparingEnlistment preparingEnlistment)
             {
-                var keepAliveTask = this.unitOfWork.KeepAliveAsync();
-                keepAliveTask.ConfigureAwait(Debugger.IsAttached);
-                if (keepAliveTask.Result)
+                var keepAlive = this.unitOfWork.KeepAliveAsync().Result;
+
+                if (keepAlive)
                 {
                     preparingEnlistment.Prepared();
                 }
@@ -219,9 +223,7 @@
 
             public void Rollback(Enlistment enlistment)
             {
-                var rollbackTask = this.unitOfWork.RollbackAsync();
-                rollbackTask.ConfigureAwait(Debugger.IsAttached);
-                rollbackTask.Wait();
+                this.unitOfWork.RollbackAsync().Wait();
                 this.OnComplete();
             }
 
