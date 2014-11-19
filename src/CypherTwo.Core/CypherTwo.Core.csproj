@@ -49,13 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClientFactory.cs" />
+    <Compile Include="ICypherUnitOfWork.cs" />
+    <Compile Include="IJsonHttpClientWrapper.cs" />
+    <Compile Include="NeoClient.cs" />
     <Compile Include="NeoResponse.cs" />
     <Compile Include="CypherDataReader.cs" />
-    <Compile Include="Deserialiser.cs" />
-    <Compile Include="NeoHttpClientWrapper.cs" />
+    <Compile Include="JsonHttpClientWrapper.cs" />
     <Compile Include="INeoClient.cs" />
     <Compile Include="ISendRestCommandsToNeo.cs" />
+    <Compile Include="NonTransactionalNeoRestApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionalNeoRestApiClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

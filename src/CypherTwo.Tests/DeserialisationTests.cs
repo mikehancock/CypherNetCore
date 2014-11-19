@@ -4,7 +4,7 @@
 
     using CypherTwo.Core;
 
-    using FakeItEasy;
+    using Newtonsoft.Json;
 
     using NUnit.Framework;
 
@@ -75,18 +75,10 @@
 }";
         #endregion
 
-        private Deserialiser deserialiser;
-
-        [SetUp]
-        public void SetupBeforeEachTest()
-        {
-            this.deserialiser = new Deserialiser();
-        }
-
         [Test]
         public void CanDeserialiseRows()
         {
-            var actual = this.deserialiser.Deserialise(Response);
+            var actual = JsonConvert.DeserializeObject<NeoResponse>(Response);
 
             Assert.That(actual.results.First().columns.Length, Is.EqualTo(9));
             Assert.That(actual.results.First().columns[6], Is.EqualTo("Movie"));
@@ -95,7 +87,7 @@
         [Test]
         public void CanExtractNodeObject()
         {
-            var actual = this.deserialiser.Deserialise(Response);
+            var actual = JsonConvert.DeserializeObject<NeoResponse>(Response);
 
             dynamic node = actual.results.First().data[0].row[0];
             int age = node.age;
@@ -107,7 +99,7 @@
         [Test]
         public void CanCastToObject()
         {
-            var actual = this.deserialiser.Deserialise(Response);
+            var actual = JsonConvert.DeserializeObject<NeoResponse>(Response);
 
             var foo = actual.results.First().data[0].row[0].ToObject<TestFoo>();
 
@@ -118,7 +110,7 @@
         [Test]
         public void CanGetIdFromRow()
         {
-            var actual = this.deserialiser.Deserialise(Response);
+            var actual = JsonConvert.DeserializeObject<NeoResponse>(Response);
 
             var foo = actual.results.First().data[0].row[1].ToObject<int>();
             Assert.That(foo, Is.EqualTo(3745));
