@@ -40,9 +40,9 @@ namespace CypherTwo.Core
             return new CypherDataReader(neoResponse);
         }
 
-        public Task ExecuteAsync(string cypher)
+        public async Task ExecuteAsync(string cypher)
         {
-            throw new System.NotImplementedException();
+            await this.neoApi.SendCommandAsync(cypher);
         }
     }
 }

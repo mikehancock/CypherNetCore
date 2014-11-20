@@ -30,7 +30,7 @@
         {
             this.neoApi = new NonTransactionalNeoRestApiClient(this.httpClientWrapper, "http://localhost:1111/");
             this.neoClient = new NeoClient(this.neoApi);
-            NUnit.Framework.Assert.Throws<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 {
                     try
                     {
@@ -44,10 +44,24 @@
         }
 
         [Test]
-        public async void CreateAndSelectNode()
+        public async void CreateAndSelectNodeUsingQuery()
         {
             var reader = await this.neoClient.QueryAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer' }) RETURN {Name: n.name, Title: n.title, Id: Id(n)} as TestFoo");
 
+            Assert.That(reader.Read(), Is.EqualTo(true));
+            var foo = reader.Get<TestFoo>(0);
+            Assert.That(foo.Name, Is.EqualTo("Andres"));
+            Assert.That(foo.Title, Is.EqualTo("Developer"));
+            Assert.That(foo.Id, Is.GreaterThan(-1));
+        }
+
+        [Test]
+        public async void CreateAndUsingExecute()
+        {
+            var reference = Guid.NewGuid();
+            await this.neoClient.ExecuteAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer', reference = '" + reference + "' })");
+
+            var reader = await this.neoClient.QueryAsync("MATCH n WHERE n.reference = '" + reference + "'");
             Assert.That(reader.Read(), Is.EqualTo(true));
             var foo = reader.Get<TestFoo>(0);
             Assert.That(foo.Name, Is.EqualTo("Andres"));
@@ -117,7 +131,7 @@
 
         private string RandomString(int size)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             char ch;
             for (int i = 0; i < size; i++)
