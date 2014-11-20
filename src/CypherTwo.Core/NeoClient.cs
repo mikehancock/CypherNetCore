@@ -31,18 +31,25 @@ namespace CypherTwo.Core
 
         public async Task<ICypherDataReader> QueryAsync(string cypher)
         {
-            var neoResponse = await this.neoApi.SendCommandAsync(cypher);
-            if (neoResponse.errors != null && neoResponse.errors.Any())
-            {
-                throw new Exception(string.Join(Environment.NewLine, neoResponse.errors.Select(error => error.ToObject<string>())));
-            }
+            var neoResponse = await this.ExecuteCore(cypher);
 
             return new CypherDataReader(neoResponse);
         }
 
         public async Task ExecuteAsync(string cypher)
         {
-            await this.neoApi.SendCommandAsync(cypher);
+            await this.ExecuteCore(cypher);
+        }
+
+        private async Task<NeoResponse> ExecuteCore(string cypher)
+        {
+            var neoResponse = await this.neoApi.SendCommandAsync(cypher);
+            if (neoResponse.errors != null && neoResponse.errors.Any())
+            {
+                throw new Exception(string.Join(Environment.NewLine, neoResponse.errors.Select(error => error.ToObject<string>())));
+            }
+
+            return neoResponse;
         }
     }
 }
