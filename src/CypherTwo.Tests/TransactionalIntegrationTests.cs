@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace CypherTwo.Tests
 {
     [TestFixture]
-    public class TransactionTests
+    public class TransactionalIntegrationTests
     {
         private static Random random = new Random((int)DateTime.Now.Ticks);
 
