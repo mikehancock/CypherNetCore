@@ -1,11 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Transactions;
-using CypherTwo.Core;
-using NUnit.Framework;
-
-namespace CypherTwo.Tests
+﻿namespace CypherTwo.Tests
 {
+    using System;
+    using System.Text;
+    using System.Transactions;
+    using CypherTwo.Core;
+    using NUnit.Framework;
+
     [TestFixture]
     public class TransactionalIntegrationTests
     {   
