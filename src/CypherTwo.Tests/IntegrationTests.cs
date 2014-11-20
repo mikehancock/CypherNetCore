@@ -59,9 +59,9 @@
         public async void CreateAndUsingExecute()
         {
             var reference = Guid.NewGuid();
-            await this.neoClient.ExecuteAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer', reference = '" + reference + "' })");
+            await this.neoClient.ExecuteAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer', reference : '" + reference + "' })");
 
-            var reader = await this.neoClient.QueryAsync("MATCH n WHERE n.reference = '" + reference + "'");
+            var reader = await this.neoClient.QueryAsync("MATCH n WHERE n.reference = '" + reference + "' RETURN n");
             Assert.That(reader.Read(), Is.EqualTo(true));
             var foo = reader.Get<TestFoo>(0);
             Assert.That(foo.Name, Is.EqualTo("Andres"));
