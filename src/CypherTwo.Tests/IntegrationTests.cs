@@ -56,7 +56,7 @@
         }
 
         [Test]
-        public async void CreateAndUsingExecute()
+        public async void CreateUsingExecute()
         {
             var reference = Guid.NewGuid();
             await this.neoClient.ExecuteAsync("CREATE (n:Person  { name : 'Andres', title : 'Developer', reference : '" + reference + "' })");
