@@ -84,10 +84,6 @@
 
         private INeoClient neoClient;
 
-        private ISendRestCommandsToNeo neoApi;
-
-        private IJsonHttpClientWrapper httpClientWrapper;
-
         [Test]
         public void TransactionCommitsOnScopeComplete()
         {
