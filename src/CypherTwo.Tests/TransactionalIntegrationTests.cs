@@ -8,7 +8,7 @@ namespace CypherTwo.Tests
 {
     [TestFixture]
     public class TransactionalIntegrationTests
-    {
+    {   
         private static Random random = new Random((int)DateTime.Now.Ticks);
 
         private INeoClient neoClient;
