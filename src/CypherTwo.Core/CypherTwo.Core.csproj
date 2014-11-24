@@ -58,6 +58,7 @@
     <Compile Include="JsonHttpClientWrapper.cs" />
     <Compile Include="INeoClient.cs" />
     <Compile Include="ISendRestCommandsToNeo.cs" />
+    <Compile Include="NeoRootResponse.cs" />
     <Compile Include="NonTransactionalNeoRestApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionalNeoRestApiClient.cs" />

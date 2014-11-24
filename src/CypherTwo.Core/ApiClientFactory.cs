@@ -1,44 +1,26 @@
 namespace CypherTwo.Core
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using System.Transactions;
 
-    using Newtonsoft.Json;
-
-    internal class ApiClientFactory : ISendRestCommandsToNeo
+    internal class ApiClientFactory 
     {
-        private static readonly Dictionary<string, ISendRestCommandsToNeo> ActiveClients =
-            new Dictionary<string, ISendRestCommandsToNeo>();
+        private static readonly IDictionary<string, ISendRestCommandsToNeo> ActiveClients =
+            new ConcurrentDictionary<string, ISendRestCommandsToNeo>();
         private static readonly object Lock = new object();
 
-        private readonly string baseUrl;
+        private readonly NeoDataRootResponse dataRoot;
         private readonly IJsonHttpClientWrapper httpClient;
-        private Dictionary<string, object> serviceRoot;
 
-        public ApiClientFactory(string baseUrl, IJsonHttpClientWrapper httpClient)
+        public ApiClientFactory(NeoDataRootResponse baseUrl, IJsonHttpClientWrapper httpClient)
         {
-            this.baseUrl = baseUrl;
+            this.dataRoot = baseUrl;
             this.httpClient = httpClient;
         }
 
-        public Task<NeoResponse> SendCommandAsync(string command)
-        {
-            if (this.serviceRoot == null || !this.serviceRoot.Any())
-                throw new InvalidOperationException("you must call connect before anything else cunts!");
-
-            return this.GetApiClient().SendCommandAsync(command);
-        }
-
-        public async Task LoadServiceRootAsync()
-        {
-            var result = await this.httpClient.GetAsync(this.baseUrl);
-            this.serviceRoot = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
-        }
-
-        private ISendRestCommandsToNeo GetApiClient()
+        public ISendRestCommandsToNeo GetApiClient()
         {
             if (Transaction.Current != null)
             {
@@ -52,7 +34,7 @@ namespace CypherTwo.Core
                     }
                     else
                     {
-                        client = new TransactionalNeoRestApiClient(this.httpClient, this.serviceRoot);
+                        client = new TransactionalNeoRestApiClient(this.httpClient, this.dataRoot.Transaction);
                         var notifier = new ResourceManager((ICypherUnitOfWork)client);
 
                         notifier.Complete += (o, e) =>
@@ -71,7 +53,7 @@ namespace CypherTwo.Core
                 }
             }
 
-            return new NonTransactionalNeoRestApiClient(this.httpClient, this.serviceRoot);
+            return new NonTransactionalNeoRestApiClient(this.httpClient, this.dataRoot.Transaction);
         }
 
         private class ResourceManager : IEnlistmentNotification

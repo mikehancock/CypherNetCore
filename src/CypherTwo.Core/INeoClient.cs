@@ -4,7 +4,6 @@
 
     public interface INeoClient
     {
-        Task InitialiseAsync();
 
         Task<ICypherDataReader> QueryAsync(string cypher);
 

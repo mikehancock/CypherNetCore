@@ -11,18 +11,18 @@ namespace CypherTwo.Core
     {
         private const string CommandFormat = @"{{""statements"": [{{""statement"": ""{0}""}}]}};";
         private readonly IJsonHttpClientWrapper httpClient;
-        private readonly IDictionary<string, object> serviceRoot;
+        private readonly string transactionUrl;
         private string commitUrl;
 
-        public TransactionalNeoRestApiClient(IJsonHttpClientWrapper httpClient, IDictionary<string, object> serviceRoot)
+        public TransactionalNeoRestApiClient(IJsonHttpClientWrapper httpClient, string transactionUrl)
         {
             this.httpClient = httpClient;
-            this.serviceRoot = serviceRoot;
+            this.transactionUrl = transactionUrl;
         }
 
         public async Task<NeoResponse> SendCommandAsync(string command)
         {
-            var commandUrl = string.IsNullOrEmpty(this.commitUrl) ? this.serviceRoot["transaction"].ToString() + "/" : this.GetThisTransactionUrl();
+            var commandUrl = string.IsNullOrEmpty(this.commitUrl) ? this.transactionUrl + "/" : this.GetThisTransactionUrl();
 
             var result = await this.httpClient.PostAsync(commandUrl, string.Format(CommandFormat, command));
 
@@ -34,11 +34,6 @@ namespace CypherTwo.Core
             }
 
             return response;
-        }
-
-        public async Task LoadServiceRootAsync()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task CommitAsync()

@@ -5,7 +5,5 @@
     internal interface ISendRestCommandsToNeo
     {
         Task<NeoResponse> SendCommandAsync(string command);
-
-        Task LoadServiceRootAsync();
     }
 }
