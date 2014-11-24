@@ -1,5 +1,11 @@
-using System.Collections.Generic;
-using Newtonsoft.Json;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NeoClient.cs" Copyright (c) 2013 Plaza De Armas Ltd>
+//   Copyright (c) 2013 Plaza De Armas Ltd
+// </copyright>
+// <summary>
+//   The graph store.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace CypherTwo.Core
 {
@@ -7,15 +13,35 @@ namespace CypherTwo.Core
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Newtonsoft.Json;
 
+    /// <summary>
+    /// The graph store.
+    /// </summary>
     public class GraphStore
     {
+        #region Fields
+
         private string baseUrl;
-        private IJsonHttpClientWrapper httpClient;
-        private NeoRootResponse serviceRoot;
+
         private NeoDataRootResponse dataRoot;
 
-        public GraphStore(string baseUrl) : this(baseUrl, new JsonHttpClientWrapper())
+        private IJsonHttpClientWrapper httpClient;
+
+        private NeoRootResponse serviceRoot;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="GraphStore"/> class.
+        /// </summary>
+        /// <param name="baseUrl">
+        /// The base url.
+        /// </param>
+        public GraphStore(string baseUrl)
+            : this(baseUrl, new JsonHttpClientWrapper())
         {
         }
 
@@ -25,6 +51,27 @@ namespace CypherTwo.Core
             this.httpClient = httpClient;
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The get session.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="INeoClient"/>.
+        /// </returns>
+        public INeoClient GetClient()
+        {
+            if (this.dataRoot == null)
+                throw new InvalidOperationException("Initialize must be called before using GetClient()");
+
+            return new NeoClient(this.dataRoot);
+        }
+
+        /// <summary>
+        /// The initialize.
+        /// </summary>
         public void Initialize()
         {
             var result = this.httpClient.GetAsync(this.baseUrl).Result;
@@ -33,21 +80,54 @@ namespace CypherTwo.Core
             this.dataRoot = JsonConvert.DeserializeObject<NeoDataRootResponse>(dataRootResult);
         }
 
-        public INeoClient GetSession()
-        {
-          return new NeoClient(this.dataRoot);  
-        }
+        #endregion
     }
 
+    /// <summary>
+    /// The neo client.
+    /// </summary>
     public class NeoClient : INeoClient
     {
+        #region Fields
+
         private readonly ApiClientFactory restCommandFactory;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         internal NeoClient(NeoDataRootResponse baseUrl)
         {
             this.restCommandFactory = new ApiClientFactory(baseUrl, new JsonHttpClientWrapper());
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The execute async.
+        /// </summary>
+        /// <param name="cypher">
+        /// The cypher.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task ExecuteAsync(string cypher)
+        {
+            await this.ExecuteCore(cypher);
+        }
+
+        /// <summary>
+        /// The query async.
+        /// </summary>
+        /// <param name="cypher">
+        /// The cypher.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public async Task<ICypherDataReader> QueryAsync(string cypher)
         {
             var neoResponse = await this.ExecuteCore(cypher);
@@ -55,10 +135,9 @@ namespace CypherTwo.Core
             return new CypherDataReader(neoResponse);
         }
 
-        public async Task ExecuteAsync(string cypher)
-        {
-            await this.ExecuteCore(cypher);
-        }
+        #endregion
+
+        #region Methods
 
         private async Task<NeoResponse> ExecuteCore(string cypher)
         {
@@ -70,5 +149,7 @@ namespace CypherTwo.Core
 
             return neoResponse;
         }
+
+        #endregion
     }
 }

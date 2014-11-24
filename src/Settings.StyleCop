@@ -221,8 +221,8 @@
         </Rule>
       </Rules>
       <AnalyzerSettings>
-        <StringProperty Name="CompanyName">ScribeStar Ltd</StringProperty>
-        <StringProperty Name="Copyright">Copyright (c) 2013 ScribeStar Ltd</StringProperty>
+        <StringProperty Name="CompanyName">Plaza De Armas Ltd</StringProperty>
+        <StringProperty Name="Copyright">Copyright (c) 2013 Plaza De Armas Ltd</StringProperty>
         <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
         <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
       </AnalyzerSettings>

@@ -1,32 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NeoRootResponse.cs" Copyright (c) 2013 Plaza De Armas Ltd>
+//   Copyright (c) 2013 Plaza De Armas Ltd
+// </copyright>
+// <summary>
+//   Defines the NeoRootResponse type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace CypherTwo.Core
 {
     internal class NeoRootResponse
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="NeoRootResponse"/> class.
+        /// </summary>
+        /// <param name="data">
+        /// The data.
+        /// </param>
+        /// <param name="management">
+        /// The management.
+        /// </param>
         public NeoRootResponse(string data, string management)
         {
-            Data = data;
-            Management = management;
+            this.Data = data;
+            this.Management = management;
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
         public string Data { get; private set; }
+
+        /// <summary>
+        /// Gets the management.
+        /// </summary>
         public string Management { get; private set; }
+
+        #endregion
     }
 
     internal class NeoDataRootResponse
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="NeoDataRootResponse"/> class.
+        /// </summary>
+        /// <param name="transaction">
+        /// The transaction.
+        /// </param>
+        /// <param name="neo4jVersion">
+        /// The neo 4 j version.
+        /// </param>
         public NeoDataRootResponse(string transaction, string neo4jVersion)
         {
-            Transaction = transaction;
-            Neo4JVersion = neo4jVersion;
+            this.Transaction = transaction;
+            this.Neo4JVersion = neo4jVersion;
         }
 
-        public string Transaction { get; private set; }
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the neo 4 j version.
+        /// </summary>
         public string Neo4JVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the transaction.
+        /// </summary>
+        public string Transaction { get; private set; }
+
+        #endregion
     }
 }

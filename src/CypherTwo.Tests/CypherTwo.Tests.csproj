@@ -71,7 +71,6 @@
     <Compile Include="GraphStoreTests.cs" />
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="NeoClientTests.cs" />
-    <Compile Include="NeoRestApiClientTests.cs" />
     <Compile Include="DeserialisationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionalIntegrationTests.cs" />

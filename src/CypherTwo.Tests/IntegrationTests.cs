@@ -8,37 +8,22 @@
     [TestFixture]
     public class IntegrationTests
     {
+        private GraphStore graphStore;
         private INeoClient neoClient;
-
-        private ISendRestCommandsToNeo neoApi;
-
         private IJsonHttpClientWrapper httpClientWrapper;
+
+        [TestFixtureSetUp]
+        public void SetupOnce()
+        {
+            this.graphStore = new GraphStore("http://localhost:7474/", new JsonHttpClientWrapper());
+            this.graphStore.Initialize();
+        }
 
         [SetUp]
         public void SetupBeforeEachTest()
         {
             this.httpClientWrapper = new JsonHttpClientWrapper();
-            this.neoApi = new NonTransactionalNeoRestApiClient(this.httpClientWrapper, "http://localhost:7474/db/data");
-            this.neoClient = new NeoClient(this.neoApi);
-            this.neoClient.InitialiseAsync().Wait();
-        }
-
-        [Test]
-        public void InitialiseThrowsExecptionWithInvalidUrl()
-        {
-            this.neoApi = new NonTransactionalNeoRestApiClient(this.httpClientWrapper, "http://localhost:1111/");
-            this.neoClient = new NeoClient(this.neoApi);
-            Assert.Throws<InvalidOperationException>(() =>
-                {
-                    try
-                    {
-                        this.neoClient.InitialiseAsync().Wait();
-                    }
-                    catch (AggregateException ex)
-                    {
-                        throw ex.InnerException;
-                    }
-                });
+            this.neoClient = this.graphStore.GetClient();
         }
 
         [Test]

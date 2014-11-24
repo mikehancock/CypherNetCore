@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CypherTwo.Core;
-using NUnit.Framework;
-
-namespace CypherTwo.Tests
+﻿namespace CypherTwo.Tests
 {
+    using System;
+
+    using CypherTwo.Core;
+
+    using Newtonsoft.Json;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class GraphStoreTests
     {
-        GraphStore graphstore = new GraphStore();
-
-   
+        [Test]
+        public void InitialiseThrowsExecptionWithInvalidUrl()
+        {
+            var graphStore = new GraphStore("http://www.google.com/");
+            Assert.Throws<JsonReaderException>(graphStore.Initialize);
+        }   
     }
 }
