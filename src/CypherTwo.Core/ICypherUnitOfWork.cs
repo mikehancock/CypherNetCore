@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="INeoClient.cs" Copyright (c) 2013 Plaza De Armas Ltd>
+// <copyright file="ICypherUnitOfWork.cs" Copyright (c) 2013 Plaza De Armas Ltd>
 //   Copyright (c) 2013 Plaza De Armas Ltd
 // </copyright>
 // <summary>
-//   The NeoClient interface.
+//   Defines the ICypherUnitOfWork type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,34 +11,33 @@ namespace CypherTwo.Core
 {
     using System.Threading.Tasks;
 
-    /// <summary>
-    /// The NeoClient interface.
-    /// </summary>
-    public interface INeoClient
+    internal interface ICypherUnitOfWork
     {
         #region Public Methods and Operators
 
         /// <summary>
-        /// The execute async.
+        /// The commit async.
         /// </summary>
-        /// <param name="cypher">
-        /// The cypher.
-        /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task ExecuteAsync(string cypher);
+        Task CommitAsync();
 
         /// <summary>
-        /// The query async.
+        /// The keep alive async.
         /// </summary>
-        /// <param name="cypher">
-        /// The cypher.
-        /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<ICypherDataReader> QueryAsync(string cypher);
+        Task<bool> KeepAliveAsync();
+
+        /// <summary>
+        /// The rollback async.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task RollbackAsync();
 
         #endregion
     }

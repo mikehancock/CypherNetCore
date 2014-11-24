@@ -1,46 +1,31 @@
-﻿namespace CypherTwo.Core
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ISendRestCommandsToNeo.cs" Copyright (c) 2013 Plaza De Armas Ltd>
+//   Copyright (c) 2013 Plaza De Armas Ltd
+// </copyright>
+// <summary>
+//   Defines the ISendRestCommandsToNeo type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace CypherTwo.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using Newtonsoft.Json;
-
-    public interface ISendRestCommandsToNeo
+    internal interface ISendRestCommandsToNeo
     {
-        Task<string> SendCommandAsync(string command);
+        #region Public Methods and Operators
 
-        Task LoadServiceRootAsync();
-    }
+        /// <summary>
+        /// The send command async.
+        /// </summary>
+        /// <param name="command">
+        /// The command.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        Task<NeoResponse> SendCommandAsync(string command);
 
-    public class NeoRestApiClient : ISendRestCommandsToNeo
-    {
-        private const string CommandFormat = @"{{""statements"": [{{""statement"": ""{0}""}}]}};";
-        private readonly IJsonHttpClientWrapper httpClient;
-        private readonly string baseUrl;
-        private IDictionary<string, object> serviceRoot;
-
-        public NeoRestApiClient(IJsonHttpClientWrapper httpClient, string baseUrl)
-        {
-            this.httpClient = httpClient;
-            this.baseUrl = baseUrl;
-        }
-
-        public async Task<string> SendCommandAsync(string command)
-        {
-            if (this.serviceRoot == null || !this.serviceRoot.Any())
-                throw new InvalidOperationException("you must call connect before anything else cunts!");
-
-            var result = await this.httpClient.PostAsync(this.serviceRoot["transaction"].ToString() + "/commit", string.Format(CommandFormat, command));
-
-            return result;
-        }
-
-        public async Task LoadServiceRootAsync()
-        {
-            var result = await this.httpClient.GetAsync(this.baseUrl);
-            this.serviceRoot = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
-        }
+        #endregion
     }
 }
