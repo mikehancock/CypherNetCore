@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiClientFactory.cs" />
+    <Compile Include="GraphStore.cs" />
     <Compile Include="ICypherUnitOfWork.cs" />
     <Compile Include="IJsonHttpClientWrapper.cs" />
     <Compile Include="NeoClient.cs" />

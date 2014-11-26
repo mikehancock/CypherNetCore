@@ -6,7 +6,7 @@
 
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture(Category = "Integration")]
     public class IntegrationTests
     {
         private GraphStore graphStore;

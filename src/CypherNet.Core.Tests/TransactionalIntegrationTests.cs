@@ -8,7 +8,7 @@
 
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture(Category = "Integration")]
     public class TransactionalIntegrationTests
     {   
         private static Random random = new Random((int)DateTime.Now.Ticks);
