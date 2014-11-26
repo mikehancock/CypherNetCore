@@ -1,19 +1,7 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IJsonHttpClientWrapper.cs" Copyright (c) 2013 Plaza De Armas Ltd>
-//   Copyright (c) 2013 Plaza De Armas Ltd
-// </copyright>
-// <summary>
-//   The JsonHttpClientWrapper interface.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CypherTwo.Core
+namespace CypherNet.Core
 {
     using System.Threading.Tasks;
 
-    /// <summary>
-    /// The JsonHttpClientWrapper interface.
-    /// </summary>
     public interface IJsonHttpClientWrapper
     {
         #region Public Methods and Operators

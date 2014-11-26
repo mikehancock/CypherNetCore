@@ -1,13 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TransactionalNeoRestApiClient.cs" Copyright (c) 2013 Plaza De Armas Ltd>
-//   Copyright (c) 2013 Plaza De Armas Ltd
-// </copyright>
-// <summary>
-//   Defines the TransactionalNeoRestApiClient type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CypherTwo.Core
+namespace CypherNet.Core
 {
     using System.Linq;
     using System.Threading.Tasks;

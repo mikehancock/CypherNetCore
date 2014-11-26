@@ -1,8 +1,6 @@
-﻿namespace CypherTwo.Tests
+﻿namespace CypherNet.Core.Tests
 {
-    using System;
-
-    using CypherTwo.Core;
+    using CypherNet.Core;
 
     using Newtonsoft.Json;
 

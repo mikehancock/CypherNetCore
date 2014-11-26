@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="INeoClient.cs" Copyright (c) 2013 Plaza De Armas Ltd>
-//   Copyright (c) 2013 Plaza De Armas Ltd
-// </copyright>
-// <summary>
-//   The NeoClient interface.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CypherTwo.Core
+﻿namespace CypherNet.Core
 {
     using System.Threading.Tasks;
 

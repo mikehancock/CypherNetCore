@@ -6,8 +6,8 @@
     <ProjectGuid>{D39B15AA-C7D1-4CFE-B2FF-6B5F28601D5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CypherTwo.Tests</RootNamespace>
-    <AssemblyName>CypherTwo.Tests</AssemblyName>
+    <RootNamespace>CypherNet.Core.Tests</RootNamespace>
+    <AssemblyName>CypherNet.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -76,9 +76,9 @@
     <Compile Include="TransactionalIntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CypherTwo.Core\CypherTwo.Core.csproj">
+    <ProjectReference Include="..\CypherTwo.Core\CypherNet.Core.csproj">
       <Project>{65e477a9-06a4-49cf-b2dd-fa524fcdf1ab}</Project>
-      <Name>CypherTwo.Core</Name>
+      <Name>CypherNet.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

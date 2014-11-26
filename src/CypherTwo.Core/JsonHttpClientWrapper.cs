@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="JsonHttpClientWrapper.cs" Copyright (c) 2013 Plaza De Armas Ltd>
-//   Copyright (c) 2013 Plaza De Armas Ltd
-// </copyright>
-// <summary>
-//   The json http client wrapper.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CypherTwo.Core
+﻿namespace CypherNet.Core
 {
     using System;
     using System.Net.Http;

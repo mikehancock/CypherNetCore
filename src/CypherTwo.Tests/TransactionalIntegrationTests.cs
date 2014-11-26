@@ -1,9 +1,11 @@
-﻿namespace CypherTwo.Tests
+﻿namespace CypherNet.Core.Tests
 {
     using System;
     using System.Text;
     using System.Transactions;
-    using CypherTwo.Core;
+
+    using CypherNet.Core;
+
     using NUnit.Framework;
 
     [TestFixture]

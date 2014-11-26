@@ -1,8 +1,11 @@
-﻿namespace CypherTwo.Tests
+﻿namespace CypherNet.Core.Tests
 {
-    using CypherTwo.Core;
+    using CypherNet.Core;
+
     using FakeItEasy;
+
     using Newtonsoft.Json;
+
     using NUnit.Framework;
 
     [TestFixture]

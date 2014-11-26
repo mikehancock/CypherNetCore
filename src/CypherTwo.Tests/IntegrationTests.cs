@@ -1,8 +1,9 @@
-﻿namespace CypherTwo.Tests
+﻿namespace CypherNet.Core.Tests
 {
     using System;
-    using System.Net.Http;
-    using CypherTwo.Core;
+
+    using CypherNet.Core;
+
     using NUnit.Framework;
 
     [TestFixture]

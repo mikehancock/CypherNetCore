@@ -7,8 +7,8 @@
     <ProjectGuid>{65E477A9-06A4-49CF-B2DD-FA524FCDF1AB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CypherTwo.Core</RootNamespace>
-    <AssemblyName>CypherTwo.Core</AssemblyName>
+    <RootNamespace>CypherNet.Core</RootNamespace>
+    <AssemblyName>CypherNet.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>b2ba319a</NuGetPackageImportStamp>

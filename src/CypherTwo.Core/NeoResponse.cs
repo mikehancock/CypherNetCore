@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NeoResponse.cs" Copyright (c) 2013 Plaza De Armas Ltd>
-//   Copyright (c) 2013 Plaza De Armas Ltd
-// </copyright>
-// <summary>
-//   Defines the Datum type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CypherTwo.Core
+﻿namespace CypherNet.Core
 {
     using Newtonsoft.Json.Linq;
 

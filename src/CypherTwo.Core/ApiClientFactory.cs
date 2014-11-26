@@ -1,13 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApiClientFactory.cs" Copyright (c) 2013 Plaza De Armas Ltd>
-//   Copyright (c) 2013 Plaza De Armas Ltd
-// </copyright>
-// <summary>
-//   Defines the ApiClientFactory type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CypherTwo.Core
+namespace CypherNet.Core
 {
     using System;
     using System.Collections.Concurrent;
