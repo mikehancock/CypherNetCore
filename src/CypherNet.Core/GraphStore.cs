@@ -55,7 +55,7 @@ namespace CypherNet.Core
             if (this.dataRoot == null)
                 throw new InvalidOperationException("Initialize must be called before using GetClient()");
 
-            return new NeoClient(this.dataRoot);
+            return new NeoClient(new ApiClientFactory(this.dataRoot, new JsonHttpClientWrapper()));
         }
 
         /// <summary>

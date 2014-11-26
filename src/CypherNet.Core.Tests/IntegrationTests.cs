@@ -53,6 +53,13 @@
             Assert.That(foo.Id, Is.GreaterThan(-1));
         }
 
+        [Test]
+        public void InvalidCypherThrowsException()
+        {
+            var ex = Assert.Throws<AggregateException>(() => this.neoClient.ExecuteAsync("This is not a valid Cypher Statement.").Wait());
+            Assert.That(ex.InnerException.Message, Is.StringStarting("Neo.ClientError.Statement.InvalidSyntax: "));
+        }
+
         private class TestFoo
         {
             public int Id { get; set; }

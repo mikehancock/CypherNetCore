@@ -5,7 +5,12 @@ namespace CypherNet.Core
     using System.Collections.Generic;
     using System.Transactions;
 
-    internal class ApiClientFactory
+    internal interface IApiClientFactory
+    {
+        ISendRestCommandsToNeo GetApiClient();
+    }
+
+    internal class ApiClientFactory : IApiClientFactory
     {
         #region Static Fields
 
@@ -28,15 +33,15 @@ namespace CypherNet.Core
         /// <summary>
         /// Initialises a new instance of the <see cref="ApiClientFactory"/> class.
         /// </summary>
-        /// <param name="baseUrl">
+        /// <param name="dataRoot">
         /// The base url.
         /// </param>
         /// <param name="httpClient">
         /// The http client.
         /// </param>
-        public ApiClientFactory(NeoDataRootResponse baseUrl, IJsonHttpClientWrapper httpClient)
+        public ApiClientFactory(NeoDataRootResponse dataRoot, IJsonHttpClientWrapper httpClient)
         {
-            this.dataRoot = baseUrl;
+            this.dataRoot = dataRoot;
             this.httpClient = httpClient;
         }
 

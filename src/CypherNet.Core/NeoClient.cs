@@ -1,6 +1,7 @@
 namespace CypherNet.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,15 +12,15 @@ namespace CypherNet.Core
     {
         #region Fields
 
-        private readonly ApiClientFactory restCommandFactory;
+        private readonly IApiClientFactory restCommandFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
-        internal NeoClient(NeoDataRootResponse baseUrl)
+        internal NeoClient(IApiClientFactory restCommandFactory)
         {
-            this.restCommandFactory = new ApiClientFactory(baseUrl, new JsonHttpClientWrapper());
+            this.restCommandFactory = restCommandFactory;
         }
 
         #endregion
@@ -65,12 +66,23 @@ namespace CypherNet.Core
             var neoResponse = await this.restCommandFactory.GetApiClient().SendCommandAsync(cypher);
             if (neoResponse.errors != null && neoResponse.errors.Any())
             {
-                throw new Exception(string.Join(Environment.NewLine, neoResponse.errors.Select(error => error.ToObject<string>())));
+                throw new Exception(string.Join(Environment.NewLine, neoResponse.errors.Select(error => error.ToObject<NeoError>())));
             }
 
             return neoResponse;
         }
 
         #endregion
+
+        internal class NeoError
+        {
+            public string Code { get; set; }
+            public string Message { get; set; }
+
+            public override string ToString()
+            {
+                return this.Code + ": " + this.Message;
+            }
+        }
     }
 }
