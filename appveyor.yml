@@ -4,7 +4,7 @@ install:
   - cmd: c:\projects\CypherNetCore\neo4j-community-2.1.5\bin\Neo4jInstaller.bat install
   - ps: .\src\.nuget\nuget.exe restore .\src\CypherNet.Core.sln
   
-after_tests:
+after_test:
   - cmd: '.\src\.nuget\NuGet.exe pack .\src\CypherNet.Core\CypherNet.Core.csproj' 
   
 artifacts:
