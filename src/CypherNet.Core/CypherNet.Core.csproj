@@ -7,8 +7,8 @@
     <ProjectGuid>{65E477A9-06A4-49CF-B2DD-FA524FCDF1AB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CypherTwo.Core</RootNamespace>
-    <AssemblyName>CypherTwo.Core</AssemblyName>
+    <RootNamespace>CypherNet.Core</RootNamespace>
+    <AssemblyName>CypherNet.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>b2ba319a</NuGetPackageImportStamp>
@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,13 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClientFactory.cs" />
+    <Compile Include="GraphStore.cs" />
+    <Compile Include="ICypherUnitOfWork.cs" />
+    <Compile Include="IJsonHttpClientWrapper.cs" />
+    <Compile Include="NeoClient.cs" />
     <Compile Include="NeoResponse.cs" />
     <Compile Include="CypherDataReader.cs" />
-    <Compile Include="Deserialiser.cs" />
-    <Compile Include="NeoHttpClientWrapper.cs" />
+    <Compile Include="JsonHttpClientWrapper.cs" />
     <Compile Include="INeoClient.cs" />
     <Compile Include="ISendRestCommandsToNeo.cs" />
+    <Compile Include="NeoRootResponse.cs" />
+    <Compile Include="NonTransactionalNeoRestApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionalNeoRestApiClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>CypherNet.Core</title>
+    <authors>mtranter mhancock</authors>
+    <owners>mtranter mhancock</owners>
+    <projectUrl>https://github.com/mikehancock/CypherNetCore</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Lightweight transactional client for Neo4j</description>
+    <copyright>Copyright MGND Ltd 2014</copyright>
+    <tags>Neo4j Cypher Graph GraphDB CypherNet .Net</tags>
+  </metadata>
+</package>

@@ -1,8 +1,13 @@
-﻿namespace CypherTwo.Tests
+﻿namespace CypherNet.Core.Tests
 {
-    using CypherTwo.Core;
+    using System;
+
+    using CypherNet.Core;
 
     using FakeItEasy;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     using NUnit.Framework;
 
@@ -77,12 +82,16 @@
 
         private ISendRestCommandsToNeo neoApi;
 
+        private IApiClientFactory apiClientFactory;
+
         [SetUp]
         public void SetupBeforeEachTest()
         {
             this.neoApi = A.Fake<ISendRestCommandsToNeo>();
-            A.CallTo(() => this.neoApi.SendCommandAsync(A<string>._)).Returns(Response);
-            this.neoClient = new NeoClient(this.neoApi);
+            A.CallTo(() => this.neoApi.SendCommandAsync(A<string>._)).Returns(JsonConvert.DeserializeObject<NeoResponse>(Response));
+            this.apiClientFactory = A.Fake<IApiClientFactory>();
+            A.CallTo(() => this.apiClientFactory.GetApiClient()).Returns(this.neoApi);
+            this.neoClient = new NeoClient(this.apiClientFactory);
         }
 
         [Test]
@@ -90,6 +99,39 @@
         {
             var dataReader = this.neoClient.QueryAsync("whatever").Result;
             Assert.That(dataReader, Is.InstanceOf<ICypherDataReader>());
+        }
+
+        [Test]
+        public void QueryCallsSendCommandAsync()
+        {
+            var dataReader = this.neoClient.QueryAsync("whatever").Result;
+            A.CallTo(() => this.neoApi.SendCommandAsync("whatever")).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Test]
+        public void ExecuteCallsSendCommandAsync()
+        {
+            this.neoClient.ExecuteAsync("whatever").Wait();
+            A.CallTo(() => this.neoApi.SendCommandAsync("whatever")).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Test]
+        public void NeoErrorsArePropagated()
+        {
+            var json = @"{
+  ""results"" : [ ],
+  ""errors"" : [ {
+    ""code"" : ""Neo.ClientError.Statement.InvalidSyntax"",
+    ""message"" : ""Invalid input 'T': expected <init> (line 1, column 1)\n\""This is not a valid Cypher Statement.\""\n ^""
+  } ]
+}";
+            var response = JsonConvert.DeserializeObject<NeoResponse>(json);
+            A.CallTo(() => this.neoApi.SendCommandAsync("whatever")).Returns(response);
+            
+            var exception = Assert.Throws<AggregateException>(() => this.neoClient.ExecuteAsync("whatever").Wait());
+
+            Assert.That(exception.InnerException, Is.InstanceOf<Exception>());
+            Assert.That(exception.InnerException.Message, Is.StringStarting("Neo.ClientError.Statement.InvalidSyntax: "));
         }
     }
 }
