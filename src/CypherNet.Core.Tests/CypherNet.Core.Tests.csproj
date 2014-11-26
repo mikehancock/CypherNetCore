@@ -76,7 +76,7 @@
     <Compile Include="TransactionalIntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CypherTwo.Core\CypherNet.Core.csproj">
+    <ProjectReference Include="..\CypherNet.Core\CypherNet.Core.csproj">
       <Project>{65e477a9-06a4-49cf-b2dd-fa524fcdf1ab}</Project>
       <Name>CypherNet.Core</Name>
     </ProjectReference>

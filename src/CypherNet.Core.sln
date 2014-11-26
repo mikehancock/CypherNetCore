@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CypherNet.Core.Tests", "CypherTwo.Tests\CypherNet.Core.Tests.csproj", "{D39B15AA-C7D1-4CFE-B2FF-6B5F28601D5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CypherNet.Core.Tests", "CypherNet.Core.Tests\CypherNet.Core.Tests.csproj", "{D39B15AA-C7D1-4CFE-B2FF-6B5F28601D5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CypherNet.Core", "CypherTwo.Core\CypherNet.Core.csproj", "{65E477A9-06A4-49CF-B2DD-FA524FCDF1AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CypherNet.Core", "CypherNet.Core\CypherNet.Core.csproj", "{65E477A9-06A4-49CF-B2DD-FA524FCDF1AB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D163CE69-9776-4BB9-B625-4F60B0615E81}"
 	ProjectSection(SolutionItems) = preProject
