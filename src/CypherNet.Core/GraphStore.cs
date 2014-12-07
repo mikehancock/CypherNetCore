@@ -1,6 +1,7 @@
 namespace CypherNet.Core
 {
     using System;
+    using System.Linq;
 
     using Newtonsoft.Json;
 
@@ -10,6 +11,8 @@ namespace CypherNet.Core
     public class GraphStore
     {
         #region Fields
+
+        private static readonly int[] MinimumVersionNumber = { 2, 0, 0 };
 
         private string baseUrl;
 
@@ -67,8 +70,34 @@ namespace CypherNet.Core
             this.serviceRoot = JsonConvert.DeserializeObject<NeoRootResponse>(result);
             var dataRootResult = this.httpClient.GetAsync(this.serviceRoot.Data).Result;
             this.dataRoot = JsonConvert.DeserializeObject<NeoDataRootResponse>(dataRootResult);
+            this.AssertVersion(this.dataRoot);
         }
 
         #endregion
+
+        private void AssertVersion(NeoDataRootResponse response)
+        {
+            var serverversion = response.Neo4JVersion;
+            if (string.IsNullOrEmpty(serverversion))
+            {
+                throw new Exception("Cannot read Neo4j Server Version");
+            }
+
+            var versionNumberStrings = serverversion.Split(new[] { '.', '-' }).Take(3).ToArray();
+            for (var i = 0; i < versionNumberStrings.Count(); i++)
+            {
+                var versionNumberString = versionNumberStrings[i];
+                var versionNumber = 0;
+                if (!int.TryParse(versionNumberString, out versionNumber))
+                {
+                    throw new Exception("Invalid Neo4j Server Version: " + serverversion);
+                }
+
+                if (versionNumber < MinimumVersionNumber[i])
+                {
+                    throw new Exception(string.Format("Incompatible Neo4j Server Version: {0}. Cypher.Net is currently only compatible with Neo4j versions {1} and above", serverversion, string.Join(".", MinimumVersionNumber)));
+                }
+            }
+        }
     }
 }

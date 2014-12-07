@@ -1,5 +1,7 @@
 ﻿namespace CypherNet.Core
 {
+    using Newtonsoft.Json;
+
     internal class NeoRootResponse
     {
         #region Constructors and Destructors
@@ -62,6 +64,7 @@
         /// <summary>
         /// Gets the neo 4 j version.
         /// </summary>
+        [JsonProperty(PropertyName = "neo4j_version")]
         public string Neo4JVersion { get; private set; }
 
         /// <summary>
