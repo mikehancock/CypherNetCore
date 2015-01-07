@@ -60,6 +60,18 @@
             Assert.That(ex.InnerException.Message, Is.StringStarting("Neo.ClientError.Statement.InvalidSyntax: "));
         }
 
+        [Test, Ignore]
+        public async void CreateAndReturnNodeDataUsingQuery()
+        {
+            var reader = await this.neoClient.QueryAsync("CREATE (NewNode:brewery {name:\"Plzensky Prazdroj\"}) RETURN NewNode as NewNode, id(NewNode) as NewNode__Id, labels(NewNode) as NewNode__Labels;");
+
+            Assert.That(reader.Read(), Is.EqualTo(true));
+            var foo = reader.Get<TestFoo>(0);
+            Assert.That(foo.Name, Is.EqualTo("Andres"));
+            Assert.That(foo.Title, Is.EqualTo("Developer"));
+            Assert.That(foo.Id, Is.GreaterThan(-1));
+        }
+
         private class TestFoo
         {
             public int Id { get; set; }
