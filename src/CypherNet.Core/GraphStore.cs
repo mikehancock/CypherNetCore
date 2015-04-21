@@ -33,7 +33,7 @@ namespace CypherNet.Core
         /// The base url.
         /// </param>
         public GraphStore(string baseUrl)
-            : this(baseUrl, new JsonHttpClientWrapper("neo4j", "longbow"))
+            : this(baseUrl, new JsonHttpClientWrapper())
         {
         }
 
