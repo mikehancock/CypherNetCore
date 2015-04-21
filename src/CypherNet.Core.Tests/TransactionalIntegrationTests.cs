@@ -18,7 +18,7 @@
         [Test]
         public void TransactionCommitsOnScopeComplete()
         {
-            this.graphStore = new GraphStore("http://localhost:7474/");
+            this.graphStore = new GraphStore("http://localhost:7474/", "neo4j", "longbow");
             this.graphStore.Initialize();
             var neoClient = this.graphStore.GetClient();
            
@@ -42,7 +42,7 @@
         [Test]
         public void TransactionRollsbackWhenNotScopeComplete()
         {
-            this.graphStore = new GraphStore("http://localhost:7474/");
+            this.graphStore = new GraphStore("http://localhost:7474/", "neo4j", "longbow");
             this.graphStore.Initialize();
             var neoClient = this.graphStore.GetClient();
             var randomText = this.RandomString(12);

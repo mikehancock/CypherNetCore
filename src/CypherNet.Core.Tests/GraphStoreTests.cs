@@ -28,7 +28,7 @@
         [Test]
         public void InitializeThenGetClientReturnsClient()
         {
-            var graphStore = new GraphStore("http://localhost:7474/");
+            var graphStore = new GraphStore("http://localhost:7474/", "neo4j", "longbow");
             graphStore.Initialize();
             var client = graphStore.GetClient();
 
