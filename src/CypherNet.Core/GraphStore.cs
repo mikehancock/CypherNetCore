@@ -27,13 +27,26 @@ namespace CypherNet.Core
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GraphStore"/> class.
+        /// Initialises a new instance of the <see cref="GraphStore"/> class, usable before Neo4J version 2.2.0.
         /// </summary>
         /// <param name="baseUrl">
         /// The base url.
         /// </param>
         public GraphStore(string baseUrl)
-            : this(baseUrl, new JsonHttpClientWrapper())
+            : this(baseUrl, new JsonHttpClientWrapper("neo4j", "longbow"))
+        {
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="GraphStore"/> class.
+        /// </summary>
+        /// <param name="baseUrl">
+        /// The base url.
+        /// </param>
+        /// <param name="userName">User name for the data connection</param>
+        /// <param name="password">Password for the data connection</param>
+        public GraphStore(string baseUrl, string userName, string password)
+            : this(baseUrl, new JsonHttpClientWrapper(userName, password))
         {
         }
 
@@ -58,7 +71,7 @@ namespace CypherNet.Core
             if (this.dataRoot == null)
                 throw new InvalidOperationException("Initialize must be called before using GetClient()");
 
-            return new NeoClient(new ApiClientFactory(this.dataRoot, new JsonHttpClientWrapper()));
+            return new NeoClient(new ApiClientFactory(this.dataRoot, new JsonHttpClientWrapper("neo4j", "longbow")));
         }
 
         /// <summary>
