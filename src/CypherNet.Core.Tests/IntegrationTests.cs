@@ -16,14 +16,14 @@
         [TestFixtureSetUp]
         public void SetupOnce()
         {
-            this.graphStore = new GraphStore("http://localhost:7474/", new JsonHttpClientWrapper());
+            this.graphStore = new GraphStore("http://localhost:7474/", new JsonHttpClientWrapper("neo4j", "longbow"));
             this.graphStore.Initialize();
         }
 
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            this.httpClientWrapper = new JsonHttpClientWrapper();
+            this.httpClientWrapper = new JsonHttpClientWrapper("neo4j", "longbow");
             this.neoClient = this.graphStore.GetClient();
         }
 
