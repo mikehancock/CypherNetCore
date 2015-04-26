@@ -2,6 +2,7 @@ namespace CypherNet.Core
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Newtonsoft.Json;
 
@@ -27,7 +28,7 @@ namespace CypherNet.Core
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GraphStore"/> class, usable before Neo4J version 2.2.0.
+        /// Initialises a new instance of the <see cref="GraphStore"/> class, using Neo4j without authentication.
         /// </summary>
         /// <param name="baseUrl">
         /// The base url.
@@ -38,7 +39,7 @@ namespace CypherNet.Core
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GraphStore"/> class.
+        /// Initialises a new instance of the <see cref="GraphStore"/> class, using basic authentication with the given credentials.
         /// </summary>
         /// <param name="baseUrl">
         /// The base url.
@@ -75,13 +76,13 @@ namespace CypherNet.Core
         }
 
         /// <summary>
-        /// The initialize.
+        /// The asynchronous initialize.
         /// </summary>
-        public void Initialize()
+        public async Task InitializeAsync()
         {
-            var result = this.httpClient.GetAsync(this.baseUrl).Result;
+            string result = await this.httpClient.GetAsync(this.baseUrl);
             this.serviceRoot = JsonConvert.DeserializeObject<NeoRootResponse>(result);
-            var dataRootResult = this.httpClient.GetAsync(this.serviceRoot.Data).Result;
+            string dataRootResult = await this.httpClient.GetAsync(this.serviceRoot.Data);
             this.dataRoot = JsonConvert.DeserializeObject<NeoDataRootResponse>(dataRootResult);
             this.AssertVersion(this.dataRoot);
         }

@@ -17,7 +17,7 @@
         public void SetupOnce()
         {
             this.graphStore = new GraphStore("http://localhost:7474/", new JsonHttpClientWrapper("neo4j", "longbow"));
-            this.graphStore.Initialize();
+            this.graphStore.InitializeAsync().Wait();
         }
 
         [SetUp]
