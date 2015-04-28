@@ -30,7 +30,7 @@
         public JsonHttpClientWrapper(string userName, string password)
         {
             this.useAuthentication = true;
-            var bytes = Encoding.UTF8.GetBytes(string.Format("{0}:{1}", userName, password));
+            var bytes = Encoding.ASCII.GetBytes(string.Format("{0}:{1}", userName, password));
             this.base64AuthenticationString = Convert.ToBase64String(bytes);
         }
 
@@ -52,7 +52,13 @@
             using (var httpClient = this.CreateHttpClient())
             {
                 var response = await httpClient.DeleteAsync(url);
-                return await GetResponseContent(response);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.Content.ReadAsStringAsync().Result);
+                }
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
@@ -72,7 +78,12 @@
             using (var httpClient = this.CreateHttpClient())
             {
                 var response = await httpClient.GetAsync(url);
-                return await GetResponseContent(response);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.Content.ReadAsStringAsync().Result);
+                }
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
@@ -95,28 +106,21 @@
             using (var httpClient = this.CreateHttpClient())
             {
                 var httpContent = request == null ? null : new StringContent(request, Encoding.Unicode, "application/json");
-                var response = httpClient.PostAsync(url, httpContent)
-                    .ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
-                return await GetResponseContent(response);
-            }
-        }
+                var response = await httpClient.PostAsync(url, httpContent);
 
-        private static async Task<string> GetResponseContent(HttpResponseMessage response)
-        {
-            string content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception(content);
-            }
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.Content.ReadAsStringAsync().Result);
+                }
 
-            return content;
+                return await response.Content.ReadAsStringAsync();
+            }
         }
 
         #endregion
 
         private HttpClient CreateHttpClient()
         {
-            HttpMessageHandler handler = new HttpClientHandler();
             var client = new HttpClient();
             if (this.useAuthentication)
             {

@@ -1,7 +1,6 @@
 ﻿namespace CypherNet.Core.Tests
 {
     using System;
-    using System.Threading.Tasks;
 
     using CypherNet.Core;
 
@@ -15,7 +14,8 @@
         [Test]
         public void InitialiseThrowsExecptionWithInvalidUrl()
         {
-            Assert.Throws<JsonReaderException>(this.DoInitialize);
+            var graphStore = new GraphStore("http://www.google.com/");
+            Assert.Throws<JsonReaderException>(graphStore.Initialize);
         }
 
         [Test]
@@ -26,19 +26,13 @@
         }
 
         [Test]
-        public async void InitializeThenGetClientReturnsClient()
+        public void InitializeThenGetClientReturnsClient()
         {
-            var graphStore = new GraphStore("http://localhost:7474/", "neo4j", "longbow");
-            await graphStore.InitializeAsync();
+            var graphStore = new GraphStore("http://localhost:7474/");
+            graphStore.Initialize();
             var client = graphStore.GetClient();
 
             Assert.That(client, Is.InstanceOf<NeoClient>());
-        }
-
-        private async void DoInitialize()
-        {
-                var graphStore = new GraphStore("http://www.google.com/");
-                await graphStore.InitializeAsync();   
         }
     }
 }
