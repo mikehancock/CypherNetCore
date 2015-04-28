@@ -16,6 +16,8 @@ namespace CypherNet.Core
 
         private static readonly IDictionary<string, ISendRestCommandsToNeo> ActiveClients = new ConcurrentDictionary<string, ISendRestCommandsToNeo>();
 
+        private static readonly object Lock = new object();
+
         #endregion
 
         #region Fields
@@ -55,32 +57,38 @@ namespace CypherNet.Core
         /// </returns>
         public ISendRestCommandsToNeo GetApiClient()
         {
-            ISendRestCommandsToNeo client;
-            if (Transaction.Current == null)
+            if (Transaction.Current != null)
             {
-                client = new NonTransactionalNeoRestApiClient(this.httpClient, this.dataRoot.Transaction);
-            }
-            else
-            {
-                var key = Transaction.Current.TransactionInformation.LocalIdentifier;
-                client = (ActiveClients as ConcurrentDictionary<string, ISendRestCommandsToNeo>)
-                    .GetOrAdd(key,
-                            k =>
+                lock (Lock)
+                {
+                    var key = Transaction.Current.TransactionInformation.LocalIdentifier;
+                    ISendRestCommandsToNeo client;
+                    if (ActiveClients.ContainsKey(key))
+                    {
+                        client = ActiveClients[key];
+                    }
+                    else
+                    {
+                        client = new TransactionalNeoRestApiClient(this.httpClient, this.dataRoot.Transaction);
+                        var notifier = new ResourceManager((ICypherUnitOfWork)client);
+
+                        notifier.Complete += (o, e) =>
                             {
-                                var cl = new TransactionalNeoRestApiClient(this.httpClient, this.dataRoot.Transaction);
-                                var notifier = new ResourceManager((ICypherUnitOfWork)cl);
+                                lock (Lock)
+                                {
+                                    ActiveClients.Remove(key);
+                                }
+                            };
 
-                                notifier.Complete += (o, e) =>
-                                    {
-                                        ActiveClients.Remove(key);
-                                    };
+                        ActiveClients.Add(key, client);
+                        Transaction.Current.EnlistVolatile(notifier, EnlistmentOptions.EnlistDuringPrepareRequired);
+                    }
 
-                                Transaction.Current.EnlistVolatile(notifier, EnlistmentOptions.EnlistDuringPrepareRequired);
-                                return cl;
-                            });
+                    return client;
+                }
             }
 
-            return client;
+            return new NonTransactionalNeoRestApiClient(this.httpClient, this.dataRoot.Transaction);
         }
 
         #endregion
@@ -118,12 +126,9 @@ namespace CypherNet.Core
             /// </param>
             public void Commit(Enlistment enlistment)
             {
-                this.unitOfWork.CommitAsync()
-                    .ContinueWith(t =>
-                    {
-                        this.OnComplete();
-                        enlistment.Done();
-                    });
+                this.unitOfWork.CommitAsync().Wait();
+                this.OnComplete();
+                enlistment.Done();
             }
 
             /// <summary>
@@ -165,8 +170,8 @@ namespace CypherNet.Core
             /// </param>
             public void Rollback(Enlistment enlistment)
             {
-                this.unitOfWork.RollbackAsync()
-                    .ContinueWith(t => this.OnComplete());
+                this.unitOfWork.RollbackAsync().Wait();
+                this.OnComplete();
             }
 
             #endregion
