@@ -126,7 +126,7 @@ namespace CypherNet.Core
             /// </param>
             public void Commit(Enlistment enlistment)
             {
-                this.unitOfWork.CommitAsync().Wait();
+                this.unitOfWork.Commit();
                 this.OnComplete();
                 enlistment.Done();
             }
@@ -150,7 +150,7 @@ namespace CypherNet.Core
             /// </param>
             public void Prepare(PreparingEnlistment preparingEnlistment)
             {
-                var keepAlive = this.unitOfWork.KeepAliveAsync().Result;
+                var keepAlive = this.unitOfWork.KeepAlive();
 
                 if (keepAlive)
                 {
@@ -170,7 +170,7 @@ namespace CypherNet.Core
             /// </param>
             public void Rollback(Enlistment enlistment)
             {
-                this.unitOfWork.RollbackAsync().Wait();
+                this.unitOfWork.Rollback();
                 this.OnComplete();
             }
 

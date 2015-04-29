@@ -50,12 +50,9 @@ namespace CypherNet.Core
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task CommitAsync()
+        public void Commit()
         {
-            if (await this.KeepAliveAsync())
-            {
-                await this.httpClient.PostAsync(this.commitUrl, string.Empty);
-            }
+            this.httpClient.PostAsync(this.commitUrl, string.Empty).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -64,9 +61,9 @@ namespace CypherNet.Core
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task<bool> KeepAliveAsync()
+        public bool KeepAlive()
         {
-            var result = await this.httpClient.PostAsync(this.GetThisTransactionUrl(), null);
+            var result = this.httpClient.PostAsync(this.GetThisTransactionUrl(), null).ConfigureAwait(false).GetAwaiter().GetResult();
             var response = JsonConvert.DeserializeObject<NeoResponse>(result);
             return response.errors == null || !response.errors.Any();
         }
@@ -77,9 +74,9 @@ namespace CypherNet.Core
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task RollbackAsync()
+        public void Rollback()
         {
-            await this.httpClient.DeleteAsync(this.GetThisTransactionUrl());
+            this.httpClient.DeleteAsync(this.GetThisTransactionUrl()).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>

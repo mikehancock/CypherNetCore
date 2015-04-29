@@ -12,7 +12,7 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task CommitAsync();
+        void Commit();
 
         /// <summary>
         /// The keep alive async.
@@ -20,7 +20,7 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<bool> KeepAliveAsync();
+        bool KeepAlive();
 
         /// <summary>
         /// The rollback async.
@@ -28,7 +28,7 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task RollbackAsync();
+        void Rollback();
 
         #endregion
     }
